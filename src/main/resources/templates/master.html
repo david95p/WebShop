@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, description)">
+    <meta charset="UTF-8">
+    <meta content="Petkov" name="author">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/index.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <base th:href="@{/}">
+    <title th:text="${title}">Title</title>
+    <meta name="description" th:content="${description}" >
+</head>
+<header class="header align-middle sticky-top" th:fragment="header">
+
+    <div class="d-flex justify-content-between">
+        <ul class="nav nav-pills align-items-center mx-2">
+            <a class="navbar-brand" href="">
+                <img alt="Item Marketplace" id=logo th:src="@{/icons/sell.png}" width="50">
+            </a>
+            <li class="nav-item m-1">
+                <a class="nav-link bg-dark text-light" th:classappend="${home} ? active:null" th:href="@{/}">Home</a>
+            </li>
+            <li class="nav-item m-1" sec:authorize="isAuthenticated()">
+                <a class="nav-link bg-dark text-light" th:classappend="${newItem} ? active:null" th:href="@{/item/new}">New
+                    Item</a>
+            </li>
+        </ul>
+        <ul class="nav nav-pills align-items-center ">
+            <li class="nav-item m-1 " th:if="${home}">
+                <div class="form-inline">
+                    <label for="searchField"></label>
+                    <input class="form-control mr-sm-2" for="searchButton" id="searchField" name="q"
+                           placeholder="Search" type="text">
+                    <a class="nav-link bg-dark text-light" for="searchField" id="searchButton" href=" " >
+                        Search
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item m-1" sec:authorize="isAuthenticated()">
+                <a class="nav-link bg-dark text-light" th:href="@{/favorites}">Favorites</a>
+            </li>
+            <li class="nav-item m-1" sec:authorize="isAuthenticated()">
+                <a class="nav-link bg-light disabled" th:text="${#authentication.name}">UserName</a>
+            </li>
+            <li class="nav-item m-1" sec:authorize="isAuthenticated()">
+                <a class="nav-link bg-dark text-light" th:href="@{/logout}">Log Out</a>
+            </li>
+            <li class="nav-item m-1" sec:authorize="!isAuthenticated()">
+                <a class="nav-link bg-dark text-light" th:href="@{/register}">Register</a>
+            </li>
+            <li class="nav-item m-1" sec:authorize="!isAuthenticated()">
+                <a class="nav-link bg-dark text-light" th:href="@{/login}">Log In</a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<aside class="aside" th:fragment="aside"></aside>
+
+<footer class=" footer mastfoot m-0" th:fragment="footer">
+    <div class="inner">
+        <p class="outline">Copyleft CC-by 2019 by Petkov.</p>
+    </div>
+</footer>

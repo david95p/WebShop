@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="master::head(title='Items Marketplace-Open Auction', description= 'This page offers the possibility to open an auction item.')">
+</head>
+<body class="col-12 p-0">
+<section id="cover" class="min-vh-100" style="display: inherit !important;">
+    <div id="cover-caption">
+        <div th:replace="master::header"></div>
+        <main class="main">
+            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4 text-white">
+                <h3 class="text-white">Open Auction</h3>
+                <div class="px-2">
+                    <form method="post" class="justify-content-center displayBackground">
+                        <div class="form-group  my-1">
+                            <label class="col-12">Auction starting price:</label>
+                            <input type="text" name="basePrice" required="required"  class="col-10" th:field="${bid.basePrice}">
+                        </div>
+
+                        <div class="form-group  my-1">
+                            <label class="col-12">Bid amount:</label>
+                            <input type="text" name="bidAmount" required="required"  class="col-10" th:field="${bid.bidAmount}">
+                        </div>
+
+                        <div class="form-group my-1">
+                            <input class="btn btn-dark" type="submit" value="Create">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </main>
+        <div th:replace="master::aside"></div>
+        <div th:replace="master::footer"></div>
+    </div>
+</section>
+
+</body>
+</html>

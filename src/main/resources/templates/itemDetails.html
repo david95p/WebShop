@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="master::head(title='Items Marketplace-Item detail', description= 'This page offers the possibility to see the details of a single item.')">
+</head>
+<body class="col-12 p-0">
+<section id="cover" class="min-vh-100" style="display: inherit !important;">
+    <div id="cover-caption">
+        <div th:replace="master::header"></div>
+        <main class="main">
+            <div class="row text-white m-0">
+                <div class="col-xl-5 col-lg-6 col-md-6 col-sm-10 mx-auto text-center form p-2" id="title">
+                    <div class="justify-content-center displayBackground">
+                        <h1 class="text-white">Item details</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card mx-auto vw-100 border-dark" style="max-width: 540px;" th:if="${item!=null}">
+                <div class="row no-gutters" th:object="${item}">
+                    <div class="col-12">
+                        <h3 class="card-header bg-dark text-light" th:text="${item.title+ ' (Id:'+item.getItemId()+')'}">Item title</h3>
+                            <img class="card-img-top col-10 my-2" th:alt="${item.getTitle()}" th:src="@{'/item/'+${item.itemId}+'/image'}">
+                        <div class="card-body">
+                            <p class="card-text" th:text="${item.adType}">Item ad type</p>
+                            <h5 class="card-text">Description:</h5>
+                            <p class="card-text" th:text="${item.description}">Item X description ...</p>
+                            <h5 class="card-text">Category:</h5>
+                            <p class="card-text" th:text="${item.category.catName}">Item's category ...</p>
+                            <h5 class="card-text">Author:</h5>
+                            <p class="card-text"
+                               th:text="${item.author.userName +' ('+item.author.role.roleName+')'}">Author
+                                (Role)</p>
+                            <div class="card-link" id="controller">
+                                <a th:if="${myUser!=null && !myUser.isFavorite(item.itemId)}" th:href="@{'/favorites/'+${item.itemId}+'/add'}"
+                                   sec:authorize="isAuthenticated()" class="text-decoration-none">
+                                    <img alt="Favorite" id=notFavorite th:src="@{/icons/NotFavorite.png}" width="40px">
+                                </a>
+                                <a th:if="${myUser!=null && myUser.isFavorite(item.itemId)}" th:href="@{'/favorites/'+${item.itemId}+'/remove'}"
+                                   sec:authorize="isAuthenticated()" class="text-decoration-none">
+                                    <img alt="Favorite" id=Favorite th:src="@{/icons/Favorite.png}" width="40px">
+                                </a>
+                                <a th:href="@{'/item/'+${item.itemId}+'/openauction'}"
+                                   sec:authorize="isAuthenticated()" th:if="${#authentication.name==item.getAuthor().getUserName() && item.getBid()==null }"class="text-decoration-none">
+                                    <img alt="Open Auction" id=openAuction th:src="@{/icons/OpenAuction.png}" width="40px">
+                                </a>
+                                <a th:href="@{'/item/'+${item.itemId}+'/closeauction'}"
+                                   sec:authorize="isAuthenticated()" th:if="${#authentication.name==item.getAuthor().getUserName() && item.getBid()!=null }"class="text-decoration-none">
+                                    <img alt="Close Auction" id=closeAuction th:src="@{/icons/Sold.png}" width="40px">
+                                </a>
+                                <a th:href="@{'/item/'+${item.itemId}+'/bid'}"
+                                   sec:authorize="isAuthenticated()" th:if="${#authentication.name!=item.getAuthor().getUserName() && item.getBid()!=null }"class="text-decoration-none">
+                                    <img alt="Bid" id=bid th:src="@{/icons/Bid.png}" width="40px">
+                                </a>
+                                <a th:href="@{'/item/'+${item.itemId}+'/edit'}"
+                                   sec:authorize="isAuthenticated()" th:if="${#authentication.name==item.getAuthor().getUserName() || #authorization.expression('hasRole(''ROLE_ADMIN'')') }"class="text-decoration-none">
+                                    <img alt="Edit" id=edit th:src="@{/icons/edit.png}" width="40px">
+                                </a>
+                                <a th:href="@{'/item/'+${item.itemId}+'/delete'}"
+                                   th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"class="text-decoration-none">
+                                    <img alt="Delete" id=delete th:src="@{/icons/delete.png}" width="40px">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-dark text-light">
+                            <small th:text="${item.getParsedDate()}">2000-01-01T00:00:00.00</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div th:replace="master::aside"></div>
+        <div th:replace="master::footer"></div>
+    </div>
+</section>
+</body>
+</html>
